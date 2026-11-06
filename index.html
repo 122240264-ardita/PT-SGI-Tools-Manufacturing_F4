@@ -51,7 +51,7 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="#hero" class="active">Beranda</a></li>
-          <li><a href="#visi-misi">Tentang Kami</a></li>
+          <li><a href="#visi-misi" onclick="document.getElementById('visi-misi').scrollIntoView({behavior:'smooth'}); return false;">Tentang Kami</a></li>
           <li><a href="#services">Struktur Perusahaan</a></li>
            <li><a href="#portfolio">Produk</a></li>
           <li><a href="#team">Sosial Media</a></li>
@@ -1038,17 +1038,16 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
   const navLinks = document.querySelectorAll("#navmenu a[href^='#']");
   const header = document.querySelector("#header");
+  
 
   // Kelompok Tentang Kami
-  const aboutStart = document.getElementById("visi-misi");
-  const aboutEnd = document.getElementById("skills");
+const aboutStart = document.getElementById("visi-misi");
+const aboutEnd = document.getElementById("skills");
 
   // Kelompok Struktur Perusahaan
   const structureStart = document.getElementById("services");
@@ -1066,12 +1065,7 @@ document.addEventListener("DOMContentLoaded", function () {
     navLinks.forEach(function (link) {
       link.classList.remove("active");
 
-      const href = link.getAttribute("href");
-
-      if (
-        href === target ||
-        (target === "#visi-misi" && href === "#about")
-      ) {
+      if (link.getAttribute("href") === target) {
         link.classList.add("active");
       }
     });
@@ -1082,17 +1076,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const headerHeight = header ? header.offsetHeight : 0;
     const position = window.scrollY + headerHeight + 10;
 
-    // 1. Tentang Kami: Visi dan Misi sampai Direktur
-    if (
-      aboutStart && aboutEnd &&
-      position >= getTop(aboutStart) &&
-      position < getBottom(aboutEnd)
-    ) {
-      setActive("#visi-misi");
-      return;
-    }
+// // 1. Tentang Kami: Visi & Misi sampai Direktur
+const aboutStart = document.querySelector("#visi-misi");
+const aboutEnd = document.querySelector("#skills");
 
-    // 2. Struktur Perusahaan
+if (
+  aboutStart && aboutEnd &&
+  position >= getTop(aboutStart) - headerHeight &&
+  position < getBottom(aboutEnd)
+) {
+  setActive("#visi-misi");
+  return;
+}
+
+    // 2. Struktur Perusahaan sampai Tugas dan Tanggung Jawab
     if (
       structureStart && structureEnd &&
       position >= getTop(structureStart) &&
@@ -1135,7 +1132,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
-
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -1279,5 +1275,6 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 </body>
+
 
 </html>

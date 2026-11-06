@@ -115,20 +115,40 @@
    * Init swiper sliders
    */
   function initSwiper() {
-    document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
-      let config = JSON.parse(
-        swiperElement.querySelector(".swiper-config").innerHTML.trim()
-      );
+  document.querySelectorAll(".init-swiper").forEach(function (swiperElement) {
+    const configElement = swiperElement.querySelector(".swiper-config");
 
-      if (swiperElement.classList.contains("swiper-tab")) {
+    if (!configElement) {
+      console.warn("Swiper config tidak ditemukan:", swiperElement);
+      return;
+    }
+
+    let config;
+
+    try {
+      config = JSON.parse(configElement.textContent.trim());
+    } catch (error) {
+      console.error("Konfigurasi Swiper tidak valid:", error);
+      return;
+    }
+
+    if (swiperElement.classList.contains("swiper-tab")) {
+      if (typeof initSwiperWithCustomPagination === "function") {
         initSwiperWithCustomPagination(swiperElement, config);
-      } else {
-        new Swiper(swiperElement, config);
       }
-    });
-  }
+    } else {
+      new Swiper(swiperElement, config);
+    }
+  });
+}
 
-  window.addEventListener("load", initSwiper);
+ window.addEventListener("load", () => {
+  try {
+    initSwiper();
+  } catch (error) {
+    console.error("Swiper error:", error);
+  }
+});
 
   /**
    * Frequently Asked Questions Toggle
